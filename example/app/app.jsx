@@ -8,7 +8,7 @@ import Main from './components/Main';
 import {
   LoadingComponent,
   Loader
-} from 'react-loading-component';
+} from 'react-loading-indicator-component';
 
 
 var MainComponent = LoadingComponent(Main, Loader);

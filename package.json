@@ -1,5 +1,5 @@
 {
-  "name": "react-alerts-loading-component",
+  "name": "react-loading-indicator-component",
   "version": "0.0.1",
   "description": "A higher-order component, a reducer, and some actions for showing 'loading' indicators.",
   "main": "index.js",
