@@ -9,9 +9,10 @@ import {
   LoadingComponent,
   Loader
 } from 'react-loading-indicator-component';
+import {MAIN_LOADER} from './loaders';
 
 
-var MainComponent = LoadingComponent(Main, Loader);
+var MainComponent = LoadingComponent(Main, Loader, MAIN_LOADER);
 
 ReactDOM.render(
   <Provider store={store}>

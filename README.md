@@ -44,6 +44,7 @@ import {
 } from 'react-loading-component';
 
 
+// You can initialise a LoadingComponent with an optional 3rd argument, which becomes its loadingId. With loadingIds (perhaps provided by an enumeration) you can easily control all LoadingComponents from anywhere that can dispatch actions.
 var MainComponent = LoadingComponent(Main, Loader);
 
 ReactDOM.render(

@@ -45,7 +45,7 @@ var startLoading = function startLoading(id, text) {
   };
 };
 
-var stopLoading = function stopLoading(id) {
+var _endLoading = function _endLoading(id) {
   return {
     type: 'END_LOADING',
     id: id
@@ -70,38 +70,38 @@ var Loader = _react2.default.createClass({
   }
 });
 
-var LoadingComponent = function LoadingComponent(ComposedComponent, Loader) {
+var LoadingComponent = function LoadingComponent(ComposedComponent, Loader, loadingId) {
   var LoadingComponentClass = _react2.default.createClass({
     displayName: 'LoadingComponentClass',
 
 
     componentWillMount: function componentWillMount() {
-      this.alertId = _nodeUuid2.default.v4();
+      this.loadingId = loadingId ? loadingId : _nodeUuid2.default.v4();
     },
 
     handleStartLoading: function handleStartLoading() {
       var dispatch = this.props.dispatch;
 
-      var object = startLoading(this.alertId, "loadingText");
+      var object = startLoading(this.loadingId, "loadingText");
       dispatch(object);
     },
     endLoading: function endLoading(loadingText) {
       var dispatch = this.props.dispatch;
 
-      dispatch(stopLoading(this.alertId));
+      dispatch(_endLoading(this.loadingId));
     },
     render: function render() {
       var loading = this.props.loading;
 
-      var alertId = this.alertId;
+      var loadingId = this.loadingId;
 
       var passToChild = {
         startLoading: this.handleStartLoading,
         endLoading: this.endLoading,
-        alertId: alertId
+        loadingId: loadingId
       };
 
-      var alertObject = loading[alertId];
+      var alertObject = loading[loadingId];
       var isLoading = false;
       if (alertObject && alertObject.isLoading) {
         isLoading = true;
@@ -135,5 +135,7 @@ module.exports = {
   default: LoadingComponent,
   LoadingComponent: LoadingComponent,
   loadingReducer: loadingReducer,
+  startLoading: startLoading,
+  endLoading: _endLoading,
   Loader: Loader
 };
