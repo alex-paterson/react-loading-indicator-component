@@ -3,7 +3,7 @@ Set up your reducer as follows:
 ```javascript
 // reducers/index.jsx
 import {combineReducers} from 'redux';
-import {loadingReducer} from 'react-loading-component';
+import {loadingReducer} from 'react-loading-indicator-component';
 
 export default combineReducers({
   loading: loadingReducer
@@ -41,7 +41,7 @@ import Main from './components/Main';
 
 import {
   LoadingComponent
-} from 'react-loading-component';
+} from 'react-loading-indicator-component';
 
 
 // You can initialise a LoadingComponent with an optional 3rd argument, which becomes its loadingId. With loadingIds (perhaps provided by an enumeration) you can easily control all LoadingComponents from anywhere that can dispatch actions.
