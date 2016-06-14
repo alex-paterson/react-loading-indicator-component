@@ -1,0 +1,26 @@
+{
+  "name": "react-alerts-loading-component",
+  "version": "0.0.1",
+  "description": "A higher-order component, a reducer, and some actions for showing 'loading' indicators.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir ."
+  },
+  "author": "Alexander Paterson",
+  "license": "MIT",
+  "dependencies": {
+    "node-uuid": "^1.4.7",
+    "react": "^15.1.0",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2"
+  },
+  "devDependencies": {
+    "babel-preset-es2016": "^6.0.11",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0"
+  }
+}
