@@ -133,7 +133,7 @@ var LoadingComponent = function LoadingComponent(ComposedComponent, Loader, load
 
       return _react2.default.createElement(
         'div',
-        null,
+        { style: { width: '100%' } },
         _react2.default.createElement(
           'div',
           { style: !isLoading ? { display: 'none' } : {} },
