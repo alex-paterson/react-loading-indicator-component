@@ -14,6 +14,8 @@ var _nodeUuid2 = _interopRequireDefault(_nodeUuid);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var loadingReducer = function loadingReducer() {
@@ -70,40 +72,62 @@ var Loader = _react2.default.createClass({
   }
 });
 
-var LoadingComponent = function LoadingComponent(ComposedComponent, Loader, loadingId) {
+var intersectionOfArrays = function intersectionOfArrays(a, b) {
+  var t;
+  if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
+  return a.filter(function (e) {
+    if (b.indexOf(e) !== -1) return true;
+  });
+};
+
+var LoadingComponent = function LoadingComponent(ComposedComponent, Loader, loadingIdArray) {
   var LoadingComponentClass = _react2.default.createClass({
     displayName: 'LoadingComponentClass',
 
 
     componentWillMount: function componentWillMount() {
-      this.loadingId = loadingId ? loadingId : _nodeUuid2.default.v4();
+      var loadingId = _nodeUuid2.default.v4();
+      this.loadingId = loadingId;
+      this.loadingIdArray = loadingIdArray ? [loadingId].concat(_toConsumableArray(loadingIdArray)) : [loadingId];
     },
 
-    handleStartLoading: function handleStartLoading() {
+    handleStartLoading: function handleStartLoading(loadingText) {
       var dispatch = this.props.dispatch;
 
-      var object = startLoading(this.loadingId, "loadingText");
+      var object = startLoading(this.loadingId, loadingText);
       dispatch(object);
     },
-    endLoading: function endLoading(loadingText) {
+    endLoading: function endLoading(loadId) {
       var dispatch = this.props.dispatch;
 
-      dispatch(_endLoading(this.loadingId));
+      dispatch(_endLoading(loadId ? loadId : this.loadingId));
     },
     render: function render() {
       var loading = this.props.loading;
-
       var loadingId = this.loadingId;
+      var loadingIdArray = this.loadingIdArray;
+
 
       var passToChild = {
         startLoading: this.handleStartLoading,
         endLoading: this.endLoading,
+        loadingIdArray: loadingIdArray,
         loadingId: loadingId
       };
 
-      var alertObject = loading[loadingId];
+      var loadingObject;
+      loadingIdArray.forEach(function (id) {
+        var loadObj = loading[id];
+        if (loadObj && loadObj.isLoading) {
+          loadingObject = loadObj;
+          return true;
+        } else {
+          return false;
+        }
+      });
+
       var isLoading = false;
-      if (alertObject && alertObject.isLoading) {
+      if (loadingObject && loadingObject.isLoading) {
         isLoading = true;
       }
 
@@ -113,7 +137,7 @@ var LoadingComponent = function LoadingComponent(ComposedComponent, Loader, load
         _react2.default.createElement(
           'div',
           { style: !isLoading ? { display: 'none' } : {} },
-          _react2.default.createElement(Loader, { loadingText: alertObject ? alertObject.text : "Loading..." })
+          _react2.default.createElement(Loader, { loadingText: loadingObject ? loadingObject.text : "Loading..." })
         ),
         _react2.default.createElement(
           'div',

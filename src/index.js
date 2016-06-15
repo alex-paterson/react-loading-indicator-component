@@ -65,44 +65,68 @@ var Loader = React.createClass({
 
 
 
-var LoadingComponent = function(ComposedComponent, Loader, loadingId) {
+var intersectionOfArrays = function(a, b) {
+    var t;
+    if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
+    return a.filter(function (e) {
+        if (b.indexOf(e) !== -1) return true;
+    });
+}
+
+
+
+
+var LoadingComponent = function(ComposedComponent, Loader, loadingIdArray) {
   var LoadingComponentClass = React.createClass({
 
     componentWillMount: function() {
-      this.loadingId = loadingId ? loadingId : uuid.v4();
+      var loadingId = uuid.v4()
+      this.loadingId = loadingId;
+      this.loadingIdArray = loadingIdArray ? [loadingId, ...loadingIdArray] : [loadingId];
     },
 
-    handleStartLoading() {
+    handleStartLoading(loadingText) {
       var {dispatch} = this.props;
-      var object = startLoading(this.loadingId, "loadingText");
+      var object = startLoading(this.loadingId, loadingText);
       dispatch(object);
     },
 
-    endLoading(loadingText) {
+    endLoading(loadId) {
       var {dispatch} = this.props;
-      dispatch(endLoading(this.loadingId));
+      dispatch(endLoading(loadId ? loadId : this.loadingId));
     },
 
     render() {
       var {loading} = this.props;
-      var loadingId = this.loadingId;
+      var {loadingId, loadingIdArray} = this;
 
       var passToChild = {
         startLoading: this.handleStartLoading,
         endLoading: this.endLoading,
+        loadingIdArray,
         loadingId
       }
 
-      var alertObject = loading[loadingId];
+      var loadingObject;
+      loadingIdArray.forEach((id) => {
+        var loadObj = loading[id];
+        if (loadObj && loadObj.isLoading) {
+          loadingObject = loadObj;
+          return true;
+        } else {
+          return false;
+        }
+      });
+
       var isLoading = false;
-      if (alertObject && alertObject.isLoading) {
+      if (loadingObject && loadingObject.isLoading) {
         isLoading = true;
       }
 
       return (
         <div>
           <div style={!isLoading ? {display: 'none'} : {}}>
-            <Loader loadingText={alertObject ? alertObject.text : "Loading..."}/>
+            <Loader loadingText={loadingObject ? loadingObject.text : "Loading..."}/>
           </div>
           <div style={isLoading ? {display: 'none'} : {}}>
             <ComposedComponent {...this.props} {...passToChild}/>

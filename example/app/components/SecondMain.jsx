@@ -2,10 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {startLoading} from 'react-loading-indicator-component';
-import {MAIN_LOADER} from '../loaders';
+import {SECOND_MAIN_LOADER} from '../loaders';
 
 
-export var Main = React.createClass({
+export var SecondMain = React.createClass({
   doStartLoading: function() {
     var {endLoading} = this.props;
 
@@ -21,11 +21,11 @@ export var Main = React.createClass({
     // and manually dispatch actions from the action creator, startLoading, a function from the
     // react-loading-indicator-component library.
     var {dispatch} = this.props;
-    dispatch(startLoading(MAIN_LOADER, "I am loading!"));
+    dispatch(startLoading(SECOND_MAIN_LOADER, "I am loading!"));
 
     setTimeout(function() {
       console.log("setTimeout: It's been one second, stop loading!");
-      endLoading(MAIN_LOADER);
+      endLoading(SECOND_MAIN_LOADER);
     }, 1000);
   },
   render: function() {
@@ -40,4 +40,4 @@ export var Main = React.createClass({
   }
 });
 
-module.exports = connect()(Main);
+module.exports = connect()(SecondMain);
