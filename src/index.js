@@ -124,7 +124,7 @@ var LoadingComponent = function(ComposedComponent, Loader, loadingIdArray) {
       }
 
       return (
-        <div>
+        <div style={{width: '100%'}}>
           <div style={!isLoading ? {display: 'none'} : {}}>
             <Loader loadingText={loadingObject ? loadingObject.text : "Loading..."}/>
           </div>
