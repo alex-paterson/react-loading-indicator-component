@@ -1,6 +1,6 @@
 {
   "name": "react-loading-indicator-component",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A higher-order component, a reducer, and some actions for showing 'loading' indicators.",
   "main": "index.js",
   "directories": {
