@@ -131,17 +131,20 @@ var LoadingComponent = function LoadingComponent(ComposedComponent, Loader, load
         isLoading = true;
       }
 
+      var styleOne = !isLoading ? { display: 'none' } : {};
+      var styleTwo = isLoading ? { display: 'none' } : {};
+
       return _react2.default.createElement(
         'div',
         { style: { width: '100%' } },
         _react2.default.createElement(
           'div',
-          { style: !isLoading ? { display: 'none' } : {} },
+          { style: _extends({ width: '100%' }, styleOne) },
           _react2.default.createElement(Loader, { loadingText: loadingObject ? loadingObject.text : "Loading..." })
         ),
         _react2.default.createElement(
           'div',
-          { style: isLoading ? { display: 'none' } : {} },
+          { style: _extends({ width: '100%' }, styleTwo) },
           _react2.default.createElement(ComposedComponent, _extends({}, this.props, passToChild))
         )
       );

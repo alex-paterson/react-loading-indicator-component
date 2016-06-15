@@ -5,7 +5,7 @@ var path = require('path');
 // Create our app
 var app = express();
 const HOST = process.env.HOST || '127.0.0.1';
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 app.use(function(req, res, next) {
   if (req.headers['x-forwarded-proto'] === 'https') {

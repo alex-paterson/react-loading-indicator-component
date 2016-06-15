@@ -123,12 +123,15 @@ var LoadingComponent = function(ComposedComponent, Loader, loadingIdArray) {
         isLoading = true;
       }
 
+      var styleOne = !isLoading ? {display: 'none'} : {};
+      var styleTwo = isLoading ? {display: 'none'} : {};
+
       return (
         <div style={{width: '100%'}}>
-          <div style={!isLoading ? {display: 'none'} : {}}>
+          <div style={{width: '100%', ...styleOne}}>
             <Loader loadingText={loadingObject ? loadingObject.text : "Loading..."}/>
           </div>
-          <div style={isLoading ? {display: 'none'} : {}}>
+          <div style={{width: '100%', ...styleTwo}}>
             <ComposedComponent {...this.props} {...passToChild}/>
           </div>
         </div>
