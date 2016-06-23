@@ -26,6 +26,8 @@ var Loader = React.createClass({
     );
   }
 });
+
+module.exports = Loader;
 ```
 
 To give a component the ability to load, use the component generator LoadingComponent which takes two components as an argument: the original component, and the component to show when loading. Wrap and render your component (in this case 'Main') as follows:
@@ -38,13 +40,17 @@ import {Provider} from 'react-redux';
 
 var store = require('./store').configureStore();
 import Main from './components/Main';
+import Loader from './components/Loader';
 
 import {
   LoadingComponent
 } from 'react-loading-indicator-component';
 
 
-// You can initialise a LoadingComponent with an optional 3rd argument, which becomes its loadingId. With loadingIds (perhaps provided by an enumeration) you can easily control all LoadingComponents from anywhere that can dispatch actions.
+// You can initialise a LoadingComponent with an optional 3rd argument, a string
+// which becomes its loadingId. With loadingIds (perhaps provided by an
+// enumeration) you can easily control all LoadingComponents from anywhere that
+// can dispatch actions.
 var MainComponent = LoadingComponent(Main, Loader);
 
 ReactDOM.render(
@@ -67,9 +73,17 @@ export var Main = React.createClass({
   doStartLoading: function() {
     var {startLoading, endLoading} = this.props;
     startLoading("I am loading!");
+    // Alternatively:
+    // use startLoading function from:
+    //     import {startLoading} from 'react-loading-indicator-component';
+    //     var {dispatch} = this.props;
+    //     dispatch(startLoading("MAIN_LOADER", "I am loading!"));
+
     setTimeout(function() {
       console.log("setTimeout: It's been one second!");
       endLoading();
+      // Alternative control:
+      //     dispatch(endLoading("MAIN_LOADER"));
     }, 1000);
   },
   render: function() {
